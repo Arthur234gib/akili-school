@@ -1,2 +1,3 @@
 # akili-school
-système d'exploitation scolaire intelligent
+
+Repository initialisé et prêt pour un nouveau départ.
