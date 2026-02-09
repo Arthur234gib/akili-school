@@ -8,7 +8,3 @@ router.post('/scan', async (req, res) => {
 
 export default router;
 
-cat > backend/src/lib/logger.ts <<'EOF'
-import winston from 'winston';
-const logger = winston.createLogger({ level: 'info', transports: [new winston.transports.Console({ format: winston.format.simple() })]});
-export default logger;
