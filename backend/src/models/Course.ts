@@ -67,12 +67,15 @@ export class CourseModel {
   }
 
   static async update(id: number, course: Partial<Course>): Promise<Course | null> {
+    // Whitelist of allowed update fields for security
+    const allowedFields = ['code', 'name', 'description', 'teacher_id', 'credits', 
+                           'level', 'subject', 'start_date', 'end_date', 'status', 'max_students'];
     const fields = [];
     const values = [];
     let i = 1;
 
     for (const [key, value] of Object.entries(course)) {
-      if (value !== undefined && key !== 'id') {
+      if (value !== undefined && key !== 'id' && allowedFields.includes(key)) {
         fields.push(`${key} = $${i}`);
         values.push(value);
         i++;

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { GradeModel } from '../models/Grade';
+import { StudentModel } from '../models/Student';
 import { authenticate, authorize, AuthRequest } from '../middleware/auth';
 
 const router = Router();
@@ -11,7 +12,10 @@ router.get('/student/:studentId', authenticate, async (req: AuthRequest, res) =>
     
     // Students can only view their own grades
     if (req.user?.role === 'student') {
-      // TODO: Validate student owns this ID
+      const userStudent = await StudentModel.findByUserId(parseInt(req.user.id));
+      if (!userStudent || userStudent.id !== studentId) {
+        return res.status(403).json({ error: 'Forbidden: You can only view your own grades' });
+      }
     }
     
     const grades = await GradeModel.findByStudent(studentId);

@@ -73,12 +73,14 @@ export class GradeModel {
   }
 
   static async update(id: number, grade: Partial<Grade>): Promise<Grade | null> {
+    // Whitelist of allowed update fields for security
+    const allowedFields = ['grade_value', 'grade_letter', 'weight'];
     const fields = [];
     const values = [];
     let i = 1;
 
     for (const [key, value] of Object.entries(grade)) {
-      if (value !== undefined && key !== 'id') {
+      if (value !== undefined && key !== 'id' && allowedFields.includes(key)) {
         fields.push(`${key} = $${i}`);
         values.push(value);
         i++;

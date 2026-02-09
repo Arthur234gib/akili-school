@@ -58,12 +58,14 @@ export class EnrollmentModel {
   }
 
   static async update(id: number, enrollment: Partial<Enrollment>): Promise<Enrollment | null> {
+    // Whitelist of allowed update fields for security
+    const allowedFields = ['enrollment_date', 'status', 'grade', 'final_score'];
     const fields = [];
     const values = [];
     let i = 1;
 
     for (const [key, value] of Object.entries(enrollment)) {
-      if (value !== undefined && key !== 'id') {
+      if (value !== undefined && key !== 'id' && allowedFields.includes(key)) {
         fields.push(`${key} = $${i}`);
         values.push(value);
         i++;

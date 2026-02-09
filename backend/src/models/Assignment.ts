@@ -54,12 +54,14 @@ export class AssignmentModel {
   }
 
   static async update(id: number, assignment: Partial<Assignment>): Promise<Assignment | null> {
+    // Whitelist of allowed update fields for security
+    const allowedFields = ['title', 'description', 'due_date', 'max_points', 'type', 'status'];
     const fields = [];
     const values = [];
     let i = 1;
 
     for (const [key, value] of Object.entries(assignment)) {
-      if (value !== undefined && key !== 'id') {
+      if (value !== undefined && key !== 'id' && allowedFields.includes(key)) {
         fields.push(`${key} = $${i}`);
         values.push(value);
         i++;

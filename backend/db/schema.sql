@@ -181,11 +181,12 @@ CREATE INDEX IF NOT EXISTS idx_financial_transactions_student_id ON financial_tr
 CREATE INDEX IF NOT EXISTS idx_resources_course_id ON resources(course_id);
 
 -- Insert sample admin user (password: admin123)
+-- Hash generated with: bcrypt.hash('admin123', 10)
 INSERT INTO users (username, email, password_hash, role, first_name, last_name)
 VALUES (
   'admin',
   'admin@akili.school',
-  '$2b$10$YjVkMzQ0YTc0YjQ0YTc0Yu8LHGvJHhYbWjZlYjQ0YTc0YjQ0YTc0Y',
+  '$2b$10$jjexplb7vORE5d70uLWkCOnUBginO9xNH4J0ACds7qCQVq17iLHgK',
   'admin',
   'System',
   'Administrator'

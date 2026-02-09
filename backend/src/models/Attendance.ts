@@ -48,12 +48,14 @@ export class AttendanceModel {
   }
 
   static async update(id: number, attendance: Partial<Attendance>): Promise<Attendance | null> {
+    // Whitelist of allowed update fields for security
+    const allowedFields = ['date', 'status', 'notes'];
     const fields = [];
     const values = [];
     let i = 1;
 
     for (const [key, value] of Object.entries(attendance)) {
-      if (value !== undefined && key !== 'id') {
+      if (value !== undefined && key !== 'id' && allowedFields.includes(key)) {
         fields.push(`${key} = $${i}`);
         values.push(value);
         i++;

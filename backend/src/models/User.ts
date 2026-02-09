@@ -45,12 +45,14 @@ export class UserModel {
   }
 
   static async update(id: number, user: Partial<User>): Promise<User | null> {
+    // Whitelist of allowed update fields for security
+    const allowedFields = ['email', 'first_name', 'last_name', 'phone'];
     const fields = [];
     const values = [];
     let i = 1;
 
     for (const [key, value] of Object.entries(user)) {
-      if (value !== undefined && key !== 'id') {
+      if (value !== undefined && key !== 'id' && allowedFields.includes(key)) {
         fields.push(`${key} = $${i}`);
         values.push(value);
         i++;
