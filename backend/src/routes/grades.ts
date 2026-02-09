@@ -31,6 +31,14 @@ router.get('/student/:studentId/course/:courseId', authenticate, async (req: Aut
     const studentId = parseInt(req.params.studentId);
     const courseId = parseInt(req.params.courseId);
     
+    // Students can only view their own grades
+    if (req.user?.role === 'student') {
+      const userStudent = await StudentModel.findByUserId(parseInt(req.user.id));
+      if (!userStudent || userStudent.id !== studentId) {
+        return res.status(403).json({ error: 'Forbidden: You can only view your own grades' });
+      }
+    }
+    
     const grades = await GradeModel.findByStudentAndCourse(studentId, courseId);
     const average = await GradeModel.calculateCourseAverage(studentId, courseId);
     
