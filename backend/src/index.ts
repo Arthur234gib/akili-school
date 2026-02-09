@@ -11,6 +11,7 @@ import studentsRouter from './routes/students';
 import coursesRouter from './routes/courses';
 import assignmentsRouter from './routes/assignments';
 import attendanceRouter from './routes/attendance';
+import gradesRouter from './routes/grades';
 import logger from './lib/logger';
 
 dotenv.config();
@@ -32,6 +33,7 @@ app.use('/api/students', studentsRouter);
 app.use('/api/courses', coursesRouter);
 app.use('/api/assignments', assignmentsRouter);
 app.use('/api/attendance', attendanceRouter);
+app.use('/api/grades', gradesRouter);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
